@@ -6,8 +6,9 @@ from ROAR.agent_module.pure_pursuit_agent import PurePursuitAgent
 from ROAR.configurations.configuration import Configuration as AgentConfig
 import argparse
 from misc.utils import str2bool
-from ROAR.agent_module.michael_pid_agent import PIDAgent
+from ROAR.agent_module.pid_agent import PIDAgent
 from ROAR.agent_module.forward_only_agent import ForwardOnlyAgent
+from q_agent import QAgent
 
 
 def main(args):
@@ -20,7 +21,7 @@ def main(args):
                                npc_agent_class=PurePursuitAgent)
     try:
         my_vehicle = carla_runner.set_carla_world()
-        agent = ForwardOnlyAgent(vehicle=my_vehicle,
+        agent = QAgent(vehicle=my_vehicle,
                          agent_settings=agent_config)
         carla_runner.start_game_loop(agent=agent,
                                      use_manual_control=not args.auto)
@@ -41,7 +42,7 @@ if __name__ == "__main__":
 
     warnings.filterwarnings("ignore", module="carla")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--auto", type=str2bool, default=False, help="True to use auto control")
+    parser.add_argument("--auto", type=str2bool, default=True, help="True to use auto control")
 
     warnings.filterwarnings("ignore", module="carla")
     args = parser.parse_args()

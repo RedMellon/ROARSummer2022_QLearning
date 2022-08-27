@@ -9,6 +9,7 @@ from ROAR_Sim.carla_client.carla_runner import CarlaRunner
 from typing import Tuple
 from prettytable import PrettyTable
 from ROAR.agent_module.michael_pid_agent import PIDAgent
+from q_agent import QAgent
 
 
 def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
@@ -25,7 +26,7 @@ def compute_score(carla_runner: CarlaRunner) -> Tuple[float, int, int]:
     """
     # time_elapsed: float = carla_runner.end_simulation_time - carla_runner.start_simulation_time
     # use simulation time, not real time
-    time_elapsed: float = carla_runner.end_sim_time - carla_runner.start_sim_time
+    time_elapsed: float = carla_runner.end_simulation_time - carla_runner.start_simulation_time
     num_collision: int = carla_runner.agent_collision_counter
     laps_completed = 0 if carla_runner.completed_lap_count < 0 else carla_runner.completed_lap_count
 
@@ -79,7 +80,7 @@ def suppress_warnings():
 
 def main():
     suppress_warnings()
-    agent_class = PIDAgent
+    agent_class = QAgent
     num_trials = 1
     total_score_array = []
     num_laps = 1
